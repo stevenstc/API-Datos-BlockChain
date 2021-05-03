@@ -8,9 +8,9 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 //console.log(datos);
 
 const app = express();
-const port = process.env.PORT || 3003;
-const prykey = process.env.APP_PRYKEY || "b5268f1b0cdaf5da97425ea28ab1204225dba4c24c86e45fb8a617b4699aec19";
-const red = process.env.APP_RED || "shasta.";
+const port = process.env.PORT;
+const prykey = process.env.APP_PRYKEY;
+const red = process.env.APP_RED;
 const SC = process.env.APP_CONTRACT || "TYULMzkrw9mfGVVPJdxbP9K7og3Na5ajPv";
 
 
