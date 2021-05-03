@@ -32,16 +32,12 @@ tronWeb = new TronWeb(
 app.get('/api/ver/consumo',async(req,res) => {
 
     let cuenta = req.body.cuenta;
-		let lectura = req.body.lectura;
+		let numero = req.body.numero;
 
     let contract = await tronWeb.contract().at(SC);//direccion del contrato
 
-    let regconsu = await contract.registarConsumo(cuenta, lectura).send();
-    await contract.registrarHash(regconsu, cuenta);
+    let varconsu = await contract.verConsumo(cuenta, numero).call();
 
-    let direccion = await tronWeb.trx.getAccount();
-    direccion = direccion.address;
-    direccion = tronWeb.address.fromHex(direccion);
 		var response = {
 			"IsOk": "1",
 	    "Message": "",
