@@ -29,6 +29,11 @@ tronWeb = new TronWeb(
 	prykey
 );
 
+app.get('/api/',async(req,res) => {
+
+    res.send("Conectado y funcionando v1.0");
+});
+
 app.get('/api/ver/consumo',async(req,res) => {
 
     let cuenta = req.body.cuenta;
