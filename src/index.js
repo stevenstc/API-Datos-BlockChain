@@ -43,6 +43,10 @@ app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 
     let varconsu = await contract.verConsumo(cuenta, numero).call();
 
+		varconsu[0]._hex = parseInt(varconsu[0]._hex);
+		varconsu[1]._hex = parseInt(varconsu[1]._hex);
+		varconsu[2]._hex = parseInt(varconsu[2]._hex);
+
 		console.log(varconsu);
 
 		var response = {
@@ -50,8 +54,9 @@ app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 	    "Message": "",
 	    "Data": {
 				"ClienteId": cuenta,
-				"CantidadKWH": lectura,
-				"RegistroBC": "https://"+red+"tronscan.org/#/transaction/"+varconsu
+				"cantidad_de_lecturas": varconsu[0],
+				"KW_registrados": varconsu[1],
+				"Tiempo_de_registro": varconsu[2]
 			}
 		}
     //console.log("https://shasta.tronscan.org/#/transaction/"+regconsu);
@@ -66,8 +71,8 @@ app.post('/api/registar/consumo',async(req,res) => {
 
     let contract = await tronWeb.contract().at(SC);//direccion del contrato
 
-    let regconsu = await contract.registarConsumo(cuenta, lectura).send();
-    await contract.registrarHashOriginal(regconsu, cuenta).send();
+    let regconsu = await contract.registarConsumo(parseInt(cuenta), parseInt(lectura)).send();
+    await contract.registrarHashOriginal(regconsu, parseInt(cuenta)).send();
 
     let direccion = await tronWeb.trx.getAccount();
     direccion = direccion.address;
