@@ -46,7 +46,7 @@ app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 		varconsu[0] = parseInt(varconsu[0]._hex);
 		varconsu[1] = parseInt(varconsu[1]._hex);
 		varconsu[2] = parseInt(varconsu[2]._hex);
-		let tempoh = new Date(varconsu[2])
+		let tempoh = new Date(varconsu[2]*1000)
 
 		console.log(varconsu);
 
@@ -58,8 +58,8 @@ app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 				"cantidad_de_lecturas": varconsu[0],
 				"lectura-numero": numero,
 				"KW_registrados": varconsu[1],
-				"Tiempo_de_registro": varconsu[2],
-				"hora_humana": toLocaleString(tempoh)
+				"Tiempo_de_registro": varconsu[2]*1000,
+				"hora_humana": tempoh.toLocaleString()
 			}
 		}
     //console.log("https://shasta.tronscan.org/#/transaction/"+regconsu);
