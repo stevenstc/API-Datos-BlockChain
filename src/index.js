@@ -3,8 +3,6 @@ const bodyParser = require("body-parser");
 const TronWeb = require('tronweb');
 const moment = require('moment');
 
-moment.tz.setDefault("America/Bogota");
-
 const datos = require('./datos_prueba.json');
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
@@ -49,7 +47,8 @@ app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 		varconsu[0] = parseInt(varconsu[0]._hex);
 		varconsu[1] = parseInt(varconsu[1]._hex);
 		varconsu[2] = parseInt(varconsu[2]._hex);
-		const tempoh = new Date(varconsu[2]*1000);
+		let tempoh = new Date(varconsu[2]*1000);
+		tempoh = moment(tempoh);
 		console.log(tempoh);
 		console.log(tempoh.toLocaleString('es-CO'));
 		console.log(varconsu);
@@ -63,7 +62,7 @@ app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 				"lectura-numero": numero,
 				"KW_registrados": varconsu[1],
 				"Tiempo_de_registro": varconsu[2]*1000,
-				"hora_humana": moment(varconsu[2]*1000).format('MMMM Do YYYY, h:mm:ss a')
+				"hora_humana": tempoh.tz('America/Bogota').format('MMMM Do YYYY, h:mm:ss a')
 			}
 		}
     //console.log("https://shasta.tronscan.org/#/transaction/"+regconsu);
