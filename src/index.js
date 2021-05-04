@@ -34,14 +34,16 @@ app.get('/api/',async(req,res) => {
     res.send("Conectado y funcionando v1.0");
 });
 
-app.get('/api/ver/consumo',async(req,res) => {
+app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 
-    let cuenta = req.body.cuenta;
+    let cuenta = req.params.cuenta;
 		let numero = req.body.numero;
 
     let contract = await tronWeb.contract().at(SC);//direccion del contrato
 
     let varconsu = await contract.verConsumo(cuenta, numero).call();
+
+		console.log(varconsu);
 
 		var response = {
 			"IsOk": "1",
@@ -49,7 +51,7 @@ app.get('/api/ver/consumo',async(req,res) => {
 	    "Data": {
 				"ClienteId": cuenta,
 				"CantidadKWH": lectura,
-				"RegistroBC": "https://"+red+"tronscan.org/#/transaction/"+regconsu
+				"RegistroBC": "https://"+red+"tronscan.org/#/transaction/"+varconsu
 			}
 		}
     //console.log("https://shasta.tronscan.org/#/transaction/"+regconsu);
