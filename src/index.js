@@ -59,7 +59,7 @@ app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 				"lectura-numero": numero,
 				"KW_registrados": varconsu[1],
 				"Tiempo_de_registro": tempoh,
-				"hora_humana": tempoh.toLocaleString({timeZone: 'GMT-5'})
+				"hora_humana": tempoh.toLocaleString()
 			}
 		}
     //console.log("https://shasta.tronscan.org/#/transaction/"+regconsu);
