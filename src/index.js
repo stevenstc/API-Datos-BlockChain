@@ -55,7 +55,15 @@ app.get('/api/ver/consumo/:cuenta',async(req,res) => {
     let contract = await tronWeb.contract().at(SC);//direccion del contrato
 
 	  let varconsu = await contract.verConsumo(cuenta, numero).call()
-  	.catch(error =>{console.error(error)});
+  	.catch(error =>{
+			var response = {
+				"IsOk": "0",
+		    "Message": error,
+		    "Data": {}
+			}
+	    res.send(response);
+
+		});
 
 
 		varconsu[0] = parseInt(varconsu[0]._hex);
