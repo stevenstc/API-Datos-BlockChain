@@ -38,7 +38,19 @@ app.get('/api/',async(req,res) => {
 app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 
     let cuenta = req.params.cuenta;
+		cuenta = parseInt(cuenta);
 		let numero = req.body.numero;
+		numero = parseInt(numero);
+
+		if (numero <= 0) {
+			var response = {
+				"IsOk": "0",
+		    "Message": "Las lecturas comienzan desde el número 1",
+		    "Data": {}
+			}
+	    res.send(response);
+
+		}
 
     let contract = await tronWeb.contract().at(SC);//direccion del contrato
 
