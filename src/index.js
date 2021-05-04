@@ -60,8 +60,8 @@ app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 				"cantidad_de_lecturas": varconsu[0],
 				"lectura-numero": numero,
 				"KW_registrados": varconsu[1],
-				"Tiempo_de_registro": varconsu[2],
-				"hora_humana": moment(varconsu[2]).format('MMMM Do YYYY, h:mm:ss a')
+				"Tiempo_de_registro": varconsu[2]*1000,
+				"hora_humana": moment(varconsu[2]*1000).format('MMMM Do YYYY, h:mm:ss a')
 			}
 		}
     //console.log("https://shasta.tronscan.org/#/transaction/"+regconsu);
