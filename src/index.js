@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const TronWeb = require('tronweb');
-const moment = require('moment');
+const moment = require('moment-timezone');
 
 const datos = require('./datos_prueba.json');
 const delay = ms => new Promise(res => setTimeout(res, ms));
