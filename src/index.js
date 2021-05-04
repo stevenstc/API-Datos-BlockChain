@@ -43,9 +43,9 @@ app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 
     let varconsu = await contract.verConsumo(cuenta, numero).call();
 
-		varconsu[0]._hex = parseInt(varconsu[0]._hex);
-		varconsu[1]._hex = parseInt(varconsu[1]._hex);
-		varconsu[2]._hex = parseInt(varconsu[2]._hex);
+		varconsu[0] = parseInt(varconsu[0]._hex);
+		varconsu[1] = parseInt(varconsu[1]._hex);
+		varconsu[2] = parseInt(varconsu[2]._hex);
 
 		console.log(varconsu);
 
