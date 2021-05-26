@@ -12,7 +12,7 @@ const app = express();
 const port = process.env.PORT;
 const prykey = process.env.APP_PRYKEY;
 const red = process.env.APP_RED;
-const SC = process.env.APP_CONTRACT || "TYULMzkrw9mfGVVPJdxbP9K7og3Na5ajPv";
+const SC = process.env.APP_CONTRACT || "THuaZzMzW9Cm5jFyq295QnhH8zFNDSC4zz";
 
 
 const TRONGRID_API = "https://api."+red+"trongrid.io";
@@ -70,12 +70,6 @@ app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 	datosLecturas = datosLecturas[0];
 	datosLecturas = datosLecturas[numero];
 
-	console.log(datosLecturas);
-	console.log(datosLecturas[0]);
-	console.log(datosLecturas[1]);
-	console.log(datosLecturas[2]);
-	console.log(datosLecturas[3]);
-
 	  let varconsu = await contract.verConsumo(cuenta, numero).call()
   	.catch(error =>{
 			var response = {
@@ -86,7 +80,6 @@ app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 	    res.send(response);
 
 		});
-
 
 		varconsu[0] = parseInt(varconsu[0]._hex);
 		varconsu[1] = parseInt(varconsu[1]._hex);
@@ -107,7 +100,7 @@ app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 				"KW_registrados": varconsu[1],
 				"Tiempo_de_registro": varconsu[2]*1000,
 				"hora_humana": tempoh.tz('America/Bogota').format('MMMM Do YYYY, h:mm:ss a'),
-				"data": datosLecturas
+				"RegistroBC": "https://"+red+"tronscan.org/#/transaction/"+varconsu[3]
 			}
 		}
 
