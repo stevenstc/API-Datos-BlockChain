@@ -21,7 +21,19 @@ console.log("Network: "+TRONGRID_API);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+/*
+//Configure Header HTTP
+app.use((req, res, next) => {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header(
+		"Access-Control-Allow-Headers",
+		"Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method"
+	);
+	res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+	res.header("Allow", "GET, POST, OPTIONS, PUT, DELETE");
+	next();
+});
+*/
 
 tronWeb = new TronWeb(
 	TRONGRID_API,
@@ -105,6 +117,15 @@ app.post('/api/registar/consumo',async(req,res) => {
     let direccion = await tronWeb.trx.getAccount();
     direccion = direccion.address;
     direccion = tronWeb.address.fromHex(direccion);
+
+	await delay(3000);
+
+	await tronWeb.trx.getTransaction(regconsu)
+    .then(value=>{
+      console.log(value);
+
+      if (value.ret[0].contractRet === 'SUCCESS') {
+
 		var response = {
 			"IsOk": "1",
 	    "Message": "",
@@ -114,8 +135,30 @@ app.post('/api/registar/consumo',async(req,res) => {
 				"RegistroBC": "https://"+red+"tronscan.org/#/transaction/"+regconsu
 			}
 		}
-    //console.log("https://shasta.tronscan.org/#/transaction/"+regconsu);
-    res.send(response);
+
+        res.send(response);
+      }else {
+		response = {
+			"IsOk": "0",
+		"Message": "No se pudo completar el registro ",
+		"Data": {}
+		}
+
+        res.send(response);
+      }
+    })
+    .catch(value=>{
+      console.log(value);
+			response = {
+				"IsOk": "0",
+				"Message": value,
+				"Data": {
+					"ClienteId": cuenta,
+					"errorRegistroBC": "https://"+red+"tronscan.org/#/transaction/"+regconsu
+				}
+			}
+      res.send(response);
+
 });
 
 app.post('/api/registar/cuenta',async(req,res) => {
@@ -130,11 +173,11 @@ app.post('/api/registar/cuenta',async(req,res) => {
 
     let regconsu = await contract.registarCuenta(cuenta).send();
 
-		var response = {};
+	var response = {};
 
-		await delay(3000);
+	await delay(3000);
 
-		await tronWeb.trx.getTransaction(regconsu)
+	await tronWeb.trx.getTransaction(regconsu)
     .then(value=>{
       console.log(value);
 
