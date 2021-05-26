@@ -158,6 +158,8 @@ app.post('/api/registar/consumo',async(req,res) => {
 				}
 			}
       res.send(response);
+	  
+	})
 
 });
 
