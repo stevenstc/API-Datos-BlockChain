@@ -66,6 +66,10 @@ app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 
     let contract = await tronWeb.contract().at(SC);//direccion del contrato
 
+	let datosLecturas = await contract.verlecturas(cuenta).call();
+	datosLecturas = datosLecturas[0];
+	datosLecturas = datosLecturas[numero];
+
 	  let varconsu = await contract.verConsumo(cuenta, numero).call()
   	.catch(error =>{
 			var response = {
@@ -96,7 +100,8 @@ app.get('/api/ver/consumo/:cuenta',async(req,res) => {
 				"lectura-numero": numero,
 				"KW_registrados": varconsu[1],
 				"Tiempo_de_registro": varconsu[2]*1000,
-				"hora_humana": tempoh.tz('America/Bogota').format('MMMM Do YYYY, h:mm:ss a')
+				"hora_humana": tempoh.tz('America/Bogota').format('MMMM Do YYYY, h:mm:ss a'),
+				"RegistroBC": "https://"+red+"tronscan.org/#/transaction/"+datosLecturas[2]
 			}
 		}
     //console.log("https://shasta.tronscan.org/#/transaction/"+regconsu);
@@ -158,7 +163,7 @@ app.post('/api/registar/consumo',async(req,res) => {
 				}
 			}
       res.send(response);
-	  
+	
 	})
 
 });
